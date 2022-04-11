@@ -6,15 +6,15 @@ ChartJS.register(...registerables)
 const Dashboard = () => {
   return (
     <div className='flex-[4] bg-primary p-10 flex flex-col gap-5'>
-      <div className='flex-[2] flex flex-col gap-7'>
+      <div className='flex-1 md:flex-[2] flex flex-col gap-7'>
         <div>
           <p className='text-gray-400'>Current Balance</p>
-          <h1 className='text-4xl font-semibold mt-5'>IDR 25.000.000,00</h1>
+          <h1 className='text-3xl md:text-4xl font-semibold mt-5'>IDR 25.000.000,00</h1>
         </div>
         <div className='flex-1 bg-secondary rounded-md'>
           <Line
             height={100}
-            options={{ maintainAspectRatio: true }}
+            options={{ maintainAspectRatio: false }}
             data={{
               labels: ['January', 'February', 'March', 'April', 'May'],
               datasets: [

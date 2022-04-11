@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { MdLogout } from 'react-icons/md'
-import { AiOutlineDashboard, AiOutlineClockCircle, AiOutlineEdit } from 'react-icons/ai'
+import { HiOutlineDocumentAdd } from 'react-icons/hi'
+import { AiOutlineDashboard, AiOutlineClockCircle } from 'react-icons/ai'
 
 const Sidebar = () => {
   const { pathname } = useLocation()
@@ -26,8 +27,8 @@ const Sidebar = () => {
             History
           </Link>
           <Link to='/' className='flex items-center gap-3 w-fit text-gray-400 hover:text-accent hover:font-medium'>
-            <AiOutlineEdit className='text-xl' />
-            Revise
+            <HiOutlineDocumentAdd className='text-xl' />
+            Add Transaction
           </Link>
         </div>
       </div>

@@ -10,8 +10,10 @@ const Sidebar = () => {
     <div className='lg:flex hidden flex-1 bg-secondary px-7 py-10 flex-col'>
       <div className='flex-1'>
         <div className='flex items-center gap-4 border-b border-gray-700 pb-5 mb-12'>
-          <div className='w-10 h-10 bg-gray-600'></div>
-          <h1>Lorem Ipsum</h1>
+          <div className='w-10 h-10 shrink-0'>
+            <img src={`${process.env.PUBLIC_URL}/img/logo.png`} alt='Fintrack' />
+          </div>
+          <h1>Fintrack</h1>
         </div>
         <div className='flex items-center gap-4 mb-12'>
           <div className='w-12 h-12 rounded-full outline outline-2 outline-offset-2 outline-accent shrink-0'></div>

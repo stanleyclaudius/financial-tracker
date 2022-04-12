@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-facebook-login-lite": "^1.0.0",
+    "react-google-login-lite": "^1.0.0"
+  }
+}

@@ -14,7 +14,7 @@ const Sidebar = () => {
           <h1>Lorem Ipsum</h1>
         </div>
         <div className='flex items-center gap-4 mb-12'>
-          <div className='w-12 h-12 rounded-full outline outline-2 outline-offset-2 outline-accent'></div>
+          <div className='w-12 h-12 rounded-full outline outline-2 outline-offset-2 outline-accent shrink-0'></div>
           <h1>User Name</h1>
         </div>
         <div>

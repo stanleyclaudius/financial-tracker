@@ -10,3 +10,11 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.blue-glassmorphism {
+  background: rgb(39, 51, 89, 0.4);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}

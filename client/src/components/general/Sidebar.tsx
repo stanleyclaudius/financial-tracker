@@ -24,7 +24,7 @@ const Sidebar = () => {
             <AiOutlineDashboard className='text-xl' />
             Overview
           </Link>
-          <Link to='/' className='flex items-center gap-3 mb-6 w-fit text-gray-400 hover:text-accent hover:font-medium'>
+          <Link to='/history' className={`flex items-center gap-3 mb-6 w-fit hover:text-accent hover:font-medium ${pathname === '/history' ? 'text-accent font-medium' : 'text-gray-400'}`}>
             <AiOutlineClockCircle className='text-xl' />
             History
           </Link>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { AiOutlineClockCircle, AiOutlineClose } from 'react-icons/ai'
 import { MdAttachMoney } from 'react-icons/md'
 import { BsPatchQuestion } from 'react-icons/bs'
-import { FormSubmit, InputChange } from '../../utils/Interface'
+import { FormSubmit, InputChange } from './../../utils/Interface'
 
 interface IProps {
   openModal: boolean
@@ -25,7 +25,6 @@ const AddTransactionModal: React.FC<IProps> = ({ openModal, setOpenModal, modalR
 
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
-    console.log(transactionData)
   }
 
   return (
@@ -50,7 +49,7 @@ const AddTransactionModal: React.FC<IProps> = ({ openModal, setOpenModal, modalR
             </div>
             <div className='flex items-center border border-gray-600 rounded-md p-3 mb-8'>
               <AiOutlineClockCircle className='text-xl mr-3' />
-              <input type='time' name='time' autoComplete='off' placeholder='Time' value={transactionData.time} onChange={handleChange} className='w-full bg-transparent text-sm outline-none' />
+              <input type='text' name='time' autoComplete='off' placeholder='Time' value={transactionData.time} onChange={handleChange} className='w-full bg-transparent text-sm outline-none' />
             </div>
             <div className='flex items-center justify-between gap-6'>
               <button onClick={() => setTransactionData({ ...transactionData, type: 'income' })} className='bg-accent w-full flex-1 py-3 hover:bg-accentDark transition-[background]'>Add as Income</button>

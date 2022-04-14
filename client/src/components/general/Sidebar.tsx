@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { MdLogout } from 'react-icons/md'
 import { HiOutlineDocumentAdd } from 'react-icons/hi'
 import { AiOutlineDashboard, AiOutlineClockCircle } from 'react-icons/ai'
-import AddTransactionModal from '../modal/AddTransactionModal'
+import AddTransactionModal from './../modal/AddTransactionModal'
 
 const Sidebar = () => {
   const [openAddTransactionModal, seteOpenAddTransactionModal] = useState(false)

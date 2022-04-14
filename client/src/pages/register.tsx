@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AiFillEye, AiFillEyeInvisible, AiOutlineUser } from 'react-icons/ai'
 import { BiLock } from 'react-icons/bi'
-import { FormSubmit, InputChange } from '../utils/Interface'
+import { FormSubmit, InputChange } from './../utils/Interface'
 import HeadInfo from './../utils/HeadInfo'
 
 const Register = () => {
@@ -69,7 +69,7 @@ const Register = () => {
             </form>
           </div>
         </div>
-        <div className='flex-[2] bg-cover' style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/img/auth_background.png)` }} />
+        <div className='hidden md:block flex-[2] bg-cover' style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/img/auth_background.png)` }} />
       </div>
     </>
   )

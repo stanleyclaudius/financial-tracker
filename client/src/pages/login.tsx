@@ -4,8 +4,8 @@ import { GoogleLogin, GoogleLoginResponse } from 'react-google-login-lite'
 import { FacebookLogin, FacebookLoginAuthResponse } from 'react-facebook-login-lite'
 import { AiFillEye, AiFillEyeInvisible, AiOutlineUser } from 'react-icons/ai'
 import { BiLock } from 'react-icons/bi'
-import { FormSubmit, InputChange } from '../utils/Interface'
-import { FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from '../utils/constant'
+import { FormSubmit, InputChange } from './../utils/Interface'
+import { FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from './../utils/constant'
 import HeadInfo from './../utils/HeadInfo'
 
 const Login = () => {
@@ -83,7 +83,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className='flex-[2] bg-cover' style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/img/auth_background.png)` }} />
+        <div className='hidden md:block flex-[2] bg-cover' style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/img/auth_background.png)` }} />
       </div>
     </>
   )

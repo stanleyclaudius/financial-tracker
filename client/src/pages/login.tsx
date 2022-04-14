@@ -57,7 +57,7 @@ const Login = () => {
                   : <AiFillEyeInvisible className='text-gray-400 cursor-pointer ml-3' onClick={() => setShowPassword(false)} />
                 }
               </div>
-              <p className='text-sm'>Forget password?</p>
+              <Link to='/forget_password' className='text-sm'>Forget password?</Link>
               <div className='flex items-center justify-between mt-10'>
                 <button className='bg-accent hover:bg-accentDark transition-[background] rounded-full px-7 py-2 text-sm'>Sign In</button>
                 <Link to='/register' className='hover:underline block w-fit text-sm outline-none'>Create Account</Link>

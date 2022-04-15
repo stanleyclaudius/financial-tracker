@@ -31,7 +31,7 @@ const AddTransactionModal: React.FC<IProps> = ({ openModal, setOpenModal, modalR
     <div className={`${openModal ? 'opacity-100' : 'opacity-0'} ${openModal ? 'pointer-events-auto' : 'pointer-events-none'} transition-opacity fixed top-0 left-0 bottom-0 right-0 bg-[rgba(0,0,0,.7)] z-[9999] flex justify-center items-center px-5`}>
       <div
         ref={modalRef}
-        className={`${openModal ? 'translate-y-0' : '-translate-y-12'} transition-transform w-full max-w-[500px] bg-gray-800 shadow-xl rounded-md`}
+        className={`${openModal ? 'translate-y-0' : '-translate-y-12'} transition-transform w-full max-w-[500px] bg-gray-800 shadow-xl rounded-md text-white`}
       >
         <div className='border-b border-gray-500 flex items-center justify-between p-5'>
           <h1 className='text-lg'>Add Transaction</h1>

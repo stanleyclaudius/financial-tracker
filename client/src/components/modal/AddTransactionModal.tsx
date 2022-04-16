@@ -1,8 +1,12 @@
 import { useState } from 'react'
-import { AiOutlineClockCircle, AiOutlineClose } from 'react-icons/ai'
+import { useDispatch, useSelector } from 'react-redux'
+import { AiOutlineClose } from 'react-icons/ai'
 import { MdAttachMoney } from 'react-icons/md'
 import { BsPatchQuestion } from 'react-icons/bs'
-import { FormSubmit, InputChange } from './../../utils/Interface'
+import { FormSubmit, InputChange, RootStore } from './../../utils/Interface'
+import { ALERT } from '../../redux/types/alertTypes'
+import { insertTransaction } from '../../redux/actions/transactionActions'
+import Loader from '../general/Loader'
 
 interface IProps {
   openModal: boolean
@@ -12,19 +16,50 @@ interface IProps {
 
 const AddTransactionModal: React.FC<IProps> = ({ openModal, setOpenModal, modalRef }) => {
   const [transactionData, setTransactionData] = useState({
-    amount: '',
+    amount: 0,
     purpose: '',
-    time: '',
     type: ''
   })
+  const [loading, setLoading] = useState(false)
+
+  const dispatch = useDispatch()
+  const { auth } = useSelector((state: RootStore) => state)
 
   const handleChange = (e: InputChange) => {
     const { name, value } = e.target
     setTransactionData({ ...transactionData, [name]: value })
   }
 
-  const handleSubmit = (e: FormSubmit) => {
+  const handleSubmit = async(e: FormSubmit) => {
     e.preventDefault()
+    if (!transactionData.amount || !transactionData.purpose) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'Please provide amount and purpose of transaction.'
+        }
+      })
+    }
+
+    if (transactionData.purpose.length > 255) {
+      return dispatch({
+        type: ALERT,
+        payload: 'Transaction purpose should be less than 255 characters.'
+      })
+    }
+
+    if (transactionData.amount < 1000) {
+      return dispatch({
+        type: ALERT,
+        payload: 'Transaction amoount should be at least Rp.1000,00'
+      })
+    }
+
+    setLoading(true)
+    await dispatch(insertTransaction(transactionData, auth.token!))
+    setLoading(false)
+    setTransactionData({ amount: 0, purpose: '', type: '' })
+    setOpenModal(false)
   }
 
   return (
@@ -41,19 +76,33 @@ const AddTransactionModal: React.FC<IProps> = ({ openModal, setOpenModal, modalR
           <form onSubmit={handleSubmit}>
             <div className='flex items-center border border-gray-600 rounded-md p-3 mb-8'>
               <MdAttachMoney className='text-xl mr-3' />
-              <input type='text' name='amount' autoComplete='off' placeholder='Amount' value={transactionData.amount} onChange={handleChange} className='w-full bg-transparent text-sm outline-none' />
+              <input type='number' name='amount' autoComplete='off' placeholder='Amount' value={transactionData.amount} onChange={handleChange} className='w-full bg-transparent text-sm outline-none' />
             </div>
             <div className='flex items-center border border-gray-600 rounded-md p-3 mb-8'>
               <BsPatchQuestion className='text-xl mr-3' />
               <input type='text' name='purpose' autoComplete='off' placeholder='Purpose' value={transactionData.purpose} onChange={handleChange} className='w-full bg-transparent text-sm outline-none' />
             </div>
-            <div className='flex items-center border border-gray-600 rounded-md p-3 mb-8'>
-              <AiOutlineClockCircle className='text-xl mr-3' />
-              <input type='text' name='time' autoComplete='off' placeholder='Time' value={transactionData.time} onChange={handleChange} className='w-full bg-transparent text-sm outline-none' />
-            </div>
             <div className='flex items-center justify-between gap-6'>
-              <button onClick={() => setTransactionData({ ...transactionData, type: 'income' })} className='bg-accent w-full flex-1 py-3 hover:bg-accentDark transition-[background]'>Add as Income</button>
-              <button onClick={() => setTransactionData({ ...transactionData, type: 'expense' })} className='bg-red-400 w-full flex-1 py-3 hover:bg-red-500 transition-[background]'>Add as Expense</button>
+              <button
+                onClick={() => setTransactionData({ ...transactionData, type: 'income' })}
+                className={`${loading ? 'bg-gray-300 hover:bg-gray-300 cursor-auto' : 'bg-accent hover:bg-accentDark cursor-pointer'} w-full flex-1 py-3 transition-[background]`}
+              >
+                {
+                  loading
+                  ? <Loader />
+                  : 'Add as Income'
+                }
+              </button>
+              <button
+                onClick={() => setTransactionData({ ...transactionData, type: 'expense' })}
+                className={`${loading ? 'bg-gray-300 hover:bg-gray-300 cursor-auto' : 'bg-red-400 hover:bg-red-500 cursor-pointer'} w-full flex-1 py-3 transition-[background]`}
+              >
+                {
+                  loading
+                  ? <Loader />
+                  : 'Add as Expense'
+                }
+              </button>
             </div>
           </form>
         </div>

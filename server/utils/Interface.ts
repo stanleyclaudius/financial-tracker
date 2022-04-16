@@ -1,5 +1,14 @@
 import { Request } from 'express'
 
+export interface ITransaction {
+  id: number
+  user: number
+  amount: number
+  purpose: string
+  type: string
+  created_at: string
+}
+
 export interface IUser {
   id: number
   name: string

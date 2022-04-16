@@ -1,7 +1,26 @@
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { MdFilterAlt } from 'react-icons/md'
 import TransactionContainer from './../transaction/TransactionContainer'
+import { ITransaction } from '../../redux/types/transactionTypes'
+import { RootStore } from '../../utils/Interface'
+import { getAllTransactions } from '../../redux/actions/transactionActions'
+import Loader from '../general/Loader'
 
 const Transaction = () => {
+  const [transactions, setTransactions] = useState<ITransaction[]>([])
+
+  const dispatch = useDispatch()
+  const { auth, alert, history } = useSelector((state: RootStore) => state)
+
+  useEffect(() => {
+    dispatch(getAllTransactions(auth.token!))
+  }, [dispatch, auth.token])
+
+  useEffect(() => {
+    setTransactions(history)
+  }, [history])
+
   return (
     <div className='flex-[4] bg-primary p-10'>
       <div className='flex items-center justify-between mb-8'>
@@ -12,9 +31,19 @@ const Transaction = () => {
         </button>
       </div>
       <div className='h-[80vh] overflow-auto hide-scrollbar'>
-        <TransactionContainer />
-        <TransactionContainer />
-        <TransactionContainer />
+        {
+          alert.loading
+          ? <Loader size='xl' />
+          : (
+            <>
+              {
+                transactions.map((item, idx) => (
+                  <TransactionContainer key={idx} item={item} />
+                ))
+              }
+            </>
+          )
+        }
       </div>
     </div>
   )

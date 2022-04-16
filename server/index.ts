@@ -18,5 +18,6 @@ app.use(cookieParser())
 app.use(morgan('dev'))
 
 app.use('/api/v1/auth', router.authRouter)
+app.use('/api/v1/transaction', router.transactionRouter)
 
 app.listen(process.env.PORT, () => console.log(`Server is running on PORT ${process.env.PORT}`))

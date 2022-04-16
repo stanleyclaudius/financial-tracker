@@ -39,7 +39,7 @@ const Activate = () => {
         })
         navigate('/login')
       })
-  }, [id, dispatch])
+  }, [id, dispatch, navigate])
 
   return (
     <>

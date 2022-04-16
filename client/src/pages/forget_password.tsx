@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AiOutlineUser } from 'react-icons/ai'
-import { FormSubmit, InputChange } from './../utils/Interface'
+import { FormSubmit } from './../utils/Interface'
 import HeadInfo from './../utils/HeadInfo'
 
 const ForgetPassword = () => {

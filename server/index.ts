@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors'
+import router from './routes'
 
 dotenv.config({
   path: './server/config/.env'
@@ -15,5 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(cookieParser())
 app.use(morgan('dev'))
+
+app.use('/api/v1/auth', router.authRouter)
 
 app.listen(process.env.PORT, () => console.log(`Server is running on PORT ${process.env.PORT}`))

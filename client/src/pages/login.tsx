@@ -1,12 +1,16 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { GoogleLogin, GoogleLoginResponse } from 'react-google-login-lite'
 import { FacebookLogin, FacebookLoginAuthResponse } from 'react-facebook-login-lite'
 import { AiFillEye, AiFillEyeInvisible, AiOutlineUser } from 'react-icons/ai'
 import { BiLock } from 'react-icons/bi'
-import { FormSubmit, InputChange } from './../utils/Interface'
+import { FormSubmit, InputChange, RootStore } from './../utils/Interface'
 import { FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from './../utils/constant'
+import { ALERT } from './../redux/types/alertTypes'
+import { facebookLogin, googleLogin, login } from './../redux/actions/authActions'
 import HeadInfo from './../utils/HeadInfo'
+import Loader from './../components/general/Loader'
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -15,22 +19,45 @@ const Login = () => {
   })
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { alert, auth } = useSelector((state: RootStore) => state)
+
   const handleChange = (e: InputChange) => {
     const { name, value } = e.target
     setUserData({ ...userData, [name]: value })
   }
 
-  const handleSubmit = (e: FormSubmit) => {
+  const handleSubmit = async(e: FormSubmit) => {
     e.preventDefault()
+    if (!userData.email || !userData.password) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'Please provide email and password.'
+        }
+      })
+    }
+
+    await dispatch(login(userData))
+    setUserData({ email: '', password: '' })
   }
 
   const onGoogleSuccess = (res: GoogleLoginResponse) => {
     const token = res.getAuthResponse().id_token
+    dispatch(googleLogin(token))
   }
 
   const onFacebookSuccess = (res: FacebookLoginAuthResponse) => {
     const { accessToken, userID } = res.authResponse
+    dispatch(facebookLogin(accessToken, userID))
   }
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate('/')
+    }
+  }, [auth.token, navigate])
 
   return (
     <>
@@ -59,7 +86,13 @@ const Login = () => {
               </div>
               <Link to='/forget_password' className='text-sm'>Forget password?</Link>
               <div className='flex items-center justify-between mt-10'>
-                <button className='bg-accent hover:bg-accentDark transition-[background] rounded-full px-7 py-2 text-sm'>Sign In</button>
+                <button className={`${alert.loading ? 'bg-gray-300 hover:bg-gray-300 cursor-auto' : 'bg-accent hover:bg-accentDark cursor-pointer'} transition-[background] rounded-full px-7 py-2 text-sm`}>
+                  {
+                    alert.loading
+                    ? <Loader />
+                    : 'Sign In'
+                  }
+                </button>
                 <Link to='/register' className='hover:underline block w-fit text-sm outline-none'>Create Account</Link>
               </div>
             </form>

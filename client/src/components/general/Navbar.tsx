@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AiOutlineClockCircle, AiOutlineDashboard } from 'react-icons/ai'
 import { HiOutlineDocumentAdd } from 'react-icons/hi'
 import { MdLogout } from 'react-icons/md'
 import { BiNews } from 'react-icons/bi'
-import { Link, useLocation } from 'react-router-dom'
+import { RootStore } from './../../utils/Interface'
+import { logout } from './../../redux/actions/authActions'
 import AddTransactionModal from './../modal/AddTransactionModal'
 
 interface IProps {
@@ -14,10 +17,18 @@ const Navbar: React.FC<IProps> = ({ setOpenNews }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
   const [openAddTransactionModal, seteOpenAddTransactionModal] = useState(false)
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { auth } = useSelector((state: RootStore) => state)
   const { pathname } = useLocation()
 
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const addTransactionModalRef = useRef() as React.MutableRefObject<HTMLDivElement>
+
+  const handleLogout = async() => {
+    await dispatch(logout(auth.token!))
+    navigate('/login')
+  }
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -65,7 +76,7 @@ const Navbar: React.FC<IProps> = ({ setOpenNews }) => {
                 <HiOutlineDocumentAdd className='text-xl' />
                 Add Transaction
               </p>
-              <div className='flex items-center gap-3 text-gray-400 p-3 cursor-pointer w-full hover:text-accent hover:font-medium'>
+              <div onClick={handleLogout} className='flex items-center gap-3 text-gray-400 p-3 cursor-pointer w-full hover:text-accent hover:font-medium'>
                 <MdLogout className='text-xl' />
                 Logout
               </div>

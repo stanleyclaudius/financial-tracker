@@ -1,9 +1,14 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiFillEye, AiFillEyeInvisible, AiOutlineUser } from 'react-icons/ai'
 import { BiLock } from 'react-icons/bi'
-import { FormSubmit, InputChange } from './../utils/Interface'
+import { FormSubmit, InputChange, RootStore } from './../utils/Interface'
+import { ALERT } from './../redux/types/alertTypes'
+import { register } from './../redux/actions/authActions'
+import { checkEmail } from './../utils/checkEmail'
 import HeadInfo from './../utils/HeadInfo'
+import Loader from './../components/general/Loader'
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -15,14 +20,67 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false)
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { alert, auth } = useSelector((state: RootStore) => state)
+
   const handleChange = (e: InputChange) => {
     const { name, value } = e.target
     setUserData({ ...userData, [name]: value })
   }
 
-  const handleSubmit = (e: FormSubmit) => {
+  const handleSubmit = async(e: FormSubmit) => {
     e.preventDefault()
+    if (!userData.name || !userData.email || !userData.password || !userData.passwordConfirmation) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'Please provide name, email, password, and password confirmation.'
+        }
+      })
+    }
+
+    if (!checkEmail(userData.email)) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'Please provide valid email address.'
+        }
+      })
+    }
+
+    if (userData.password.length < 8) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'Password should be at least 8 characters.'
+        }
+      })
+    }
+
+    if (userData.password !== userData.passwordConfirmation) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'Password confirmation should be matched with password.'
+        }
+      })
+    }
+
+    await dispatch(register(userData))
+    setUserData({
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirmation: ''
+    })
   }
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate('/')
+    }
+  }, [auth.token, navigate])
 
   return (
     <>
@@ -63,7 +121,13 @@ const Register = () => {
                 }
               </div>
               <div className='flex items-center justify-between mt-10'>
-                <button className='bg-accent hover:bg-accentDark transition-[background] rounded-full px-7 py-2 text-sm'>Sign Up</button>
+                <button className={`${alert.loading ? 'bg-gray-300 hover:bg-gray-300 cursor-auto' : 'bg-accent hover:bg-accentDark cursor-pointer'} transition-[background] rounded-full px-7 py-2 text-sm`}>
+                  {
+                    alert.loading
+                    ? <Loader />
+                    : 'Sign Up'
+                  }
+                </button>
                 <Link to='/login' className='hover:underline block w-fit text-sm outline-none'>Sign In</Link>
               </div>
             </form>

@@ -2,7 +2,7 @@ import { Response } from 'express'
 import jwt from 'jsonwebtoken'
 
 export const generateAccessToken = (payload: object) => {
-  return jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, { expiresIn: '1h' })
+  return jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, { expiresIn: '7d' })
 }
 
 export const generateRefreshToken = (payload: object, res: Response) => {

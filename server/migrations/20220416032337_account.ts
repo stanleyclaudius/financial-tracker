@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('email')
     table.string('password')
     table.string('rf_token')
-    table.string('avatar').defaultTo('https://res.cloudinary.com/devatchannel/image/upload/v1602752402/avatar/avatar_cugq40.png')
+    table.text('avatar').defaultTo('https://res.cloudinary.com/devatchannel/image/upload/v1602752402/avatar/avatar_cugq40.png')
     table.string('type').defaultTo('register')
   })
 }

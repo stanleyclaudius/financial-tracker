@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MdLogout } from 'react-icons/md'
-import { HiOutlineDocumentAdd } from 'react-icons/hi'
 import { AiOutlineDashboard, AiOutlineClockCircle } from 'react-icons/ai'
+import { HiOutlineDocumentAdd } from 'react-icons/hi'
+import { logout } from './../../redux/actions/authActions'
+import { RootStore } from './../../utils/Interface'
 import AddTransactionModal from './../modal/AddTransactionModal'
 
 const Sidebar = () => {
@@ -10,7 +13,15 @@ const Sidebar = () => {
 
   const addTransactionModalRef = useRef() as React.MutableRefObject<HTMLDivElement>
   
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { auth } = useSelector((state: RootStore) => state)
   const { pathname } = useLocation()
+
+  const handleLogout = async() => {
+    await dispatch(logout(auth.token!))
+    navigate('/login')
+  }
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -34,8 +45,10 @@ const Sidebar = () => {
             <h1>Fintrack</h1>
           </div>
           <div className='flex items-center gap-4 mb-12'>
-            <div className='w-12 h-12 rounded-full outline outline-2 outline-offset-2 outline-accent shrink-0'></div>
-            <h1>User Name</h1>
+            <div className='w-12 h-12 rounded-full outline outline-2 outline-offset-2 outline-accent shrink-0'>
+              <img src={auth.user?.avatar} alt={auth.user?.name} className='rounded-full w-full h-full' />
+            </div>
+            <h1>{auth.user?.name}</h1>
           </div>
           <div>
             <Link to='/' className={`flex items-center gap-3 mb-6 w-fit hover:text-accent hover:font-medium ${pathname === '/' || pathname === '/index' ? 'text-accent font-medium' : 'text-gray-400'}`}>
@@ -53,7 +66,7 @@ const Sidebar = () => {
           </div>
         </div>
         <div className='border-t border-gray-700 pt-5'>
-          <div className='flex items-center gap-3 text-gray-400 cursor-pointer w-fit hover:text-accent hover:font-medium'>
+          <div onClick={handleLogout} className='flex items-center gap-3 text-gray-400 cursor-pointer w-fit hover:text-accent hover:font-medium'>
             <MdLogout className='text-xl' />
             Logout
           </div>

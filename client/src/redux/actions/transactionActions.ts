@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { GET_ALL_TRANSACTIONS, IGetAllTransactionsType, IInsertTransactionType, INSERT_TRANSACTION, ITransactionData } from './../types/transactionTypes'
+import { GET_ALL_TRANSACTIONS, GET_MONTHLY_TRANSACTIONS, IGetAllTransactionsType, IGetMonthlyTransactionsType, IInsertTransactionType, INSERT_TRANSACTION, ITransactionData } from './../types/transactionTypes'
 import { ALERT, IAlertType } from './../types/alertTypes'
 import { getDataAPI, postDataAPI } from './../../utils/fetchData'
 import { checkTokenExp } from './../../utils/checkTokenExp'
@@ -27,6 +27,26 @@ export const getAllTransactions = (token: string) => async(dispatch: Dispatch<IG
       payload: {
         loading: false
       }
+    })
+  } catch (err: any) {
+    dispatch({
+      type: ALERT,
+      payload: {
+        errors: err.response.data.msg
+      }
+    })
+  }
+}
+
+export const getMonthlyTransactions = (token: string) => async(dispatch: Dispatch<IGetMonthlyTransactionsType | IAlertType>) => {
+  const tokenExpResult = await checkTokenExp(token, dispatch)
+  const accessToken = tokenExpResult ? tokenExpResult : token
+
+  try {
+    const res = await getDataAPI('transaction/monthly', accessToken)
+    dispatch({
+      type: GET_MONTHLY_TRANSACTIONS,
+      payload: res.data
     })
   } catch (err: any) {
     dispatch({

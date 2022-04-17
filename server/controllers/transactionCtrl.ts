@@ -57,6 +57,32 @@ const transactionCtrl = {
     } catch (err: any) {
       return res.status(500).json({ msg: err.message })
     }
+  },
+  getTransactionsByMonth: async(req: IReqUser, res: Response) => {
+    try {
+      const incomes = await db<ITransaction>('transaction')
+                        .select(db.raw("date_part('month', created_at) as month"))
+                        .sum('amount')
+                        .where('user', req.user!.id)
+                        .groupByRaw("date_part('month', created_at), type, date_part('year', created_at)")
+                        .having('type', '=', 'income')
+                        .havingRaw("date_part('year', created_at) = date_part('year', CURRENT_DATE)")
+
+      const expenses = await db<ITransaction>('transaction')
+                        .select(db.raw("date_part('month', created_at) as month"))
+                        .sum('amount')
+                        .where('user', req.user!.id)
+                        .groupByRaw("date_part('month', created_at), type, date_part('year', created_at)")
+                        .having('type', '=', 'expense')
+                        .havingRaw("date_part('year', created_at) = date_part('year', CURRENT_DATE)")
+
+      return res.status(200).json({
+        incomes,
+        expenses
+      })
+    } catch (err: any) {
+      return res.status(500).json({ msg: err.message })
+    }
   }
 }
 

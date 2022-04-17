@@ -9,5 +9,6 @@ router.route('/')
   .post(isAuthenticated, transactionCtrl.insertTransaction)
 
 router.route('/monthly').get(isAuthenticated, transactionCtrl.getTransactionsByMonth)
+router.route('/latest').get(isAuthenticated, transactionCtrl.getLatestTransaction)
 
 export default router

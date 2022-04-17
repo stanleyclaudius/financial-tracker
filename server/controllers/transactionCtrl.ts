@@ -83,6 +83,33 @@ const transactionCtrl = {
     } catch (err: any) {
       return res.status(500).json({ msg: err.message })
     }
+  },
+  getLatestTransaction: async(req: IReqUser, res: Response) => {
+    try {
+      const transactions = await db<ITransaction>('transaction').where('user', req.user!.id).andWhereRaw("date_part('year', created_at) = date_part('year', CURRENT_DATE)").orderBy('created_at', 'desc').limit(4)
+
+      const dateData: string[] = []
+      const formattedData = []
+      for (let transaction of transactions) {
+        if (!dateData.includes(new Date(transaction.created_at).toLocaleDateString())) {
+          dateData.push(new Date(transaction.created_at).toLocaleDateString())
+          formattedData.push({ date: new Date(transaction.created_at).toLocaleDateString(), data: [] })
+        }
+      }
+      
+      for (let item of formattedData) {
+        for (let transaction of transactions) {
+          if (new Date(transaction.created_at).toLocaleDateString() === item.date) {
+            // @ts-ignore
+            item.data.push(transaction)
+          }
+        }
+      }
+
+      return res.status(200).json({ transactions: formattedData })
+    } catch (err: any) {
+      return res.status(500).json({ msg: err.message })
+    }
   }
 }
 

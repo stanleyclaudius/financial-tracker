@@ -1,6 +1,7 @@
 export const INSERT_TRANSACTION = 'INSERT_TRANSACTION'
 export const GET_ALL_TRANSACTIONS = 'GET_ALL_TRANSACTIONS'
 export const GET_MONTHLY_TRANSACTIONS = 'GET_MONTHLY_TRANSACTIONS'
+export const GET_LATEST_TRANSACTIONS = 'GET_LATEST_TRANSACTIONS'
 
 export interface ITransactionData {
   id?: number
@@ -33,6 +34,11 @@ export interface IInsertTransactionType {
 
 export interface IGetAllTransactionsType {
   type: typeof GET_ALL_TRANSACTIONS
+  payload: ITransaction[]
+}
+
+export interface IGetLatestTransactionsType {
+  type: typeof GET_LATEST_TRANSACTIONS
   payload: ITransaction[]
 }
 

@@ -29,7 +29,7 @@ const chartReducer = (state: IMonthlyTransaction = initialState, action: IInsert
             month: extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()),
             sum: action.payload.amount
           }
-          return ({ ...state, incomes: [ state.incomes, newData ] } as IMonthlyTransaction)
+          return ({ ...state, incomes: [ newData ] } as IMonthlyTransaction)
         }
       } else {
         const isMonthExists = state.expenses.find(item => item.month === extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()))
@@ -47,7 +47,7 @@ const chartReducer = (state: IMonthlyTransaction = initialState, action: IInsert
             month: extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()),
             sum: action.payload.amount
           }
-          return ({ ...state, expenses: [ state.expenses, newData ] } as IMonthlyTransaction)
+          return ({ ...state, expenses: [ newData ] } as IMonthlyTransaction)
         }
       }
     default:

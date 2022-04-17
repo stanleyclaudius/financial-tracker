@@ -4,17 +4,19 @@ import { Line, Chart } from 'react-chartjs-2'
 import { Chart as ChartJS, registerables } from 'chart.js'
 import TransactionContainer from './../transaction/TransactionContainer'
 import { RootStore } from '../../utils/Interface'
-import { getMonthlyTransactions } from '../../redux/actions/transactionActions'
+import { getLatestTransactions, getMonthlyTransactions } from '../../redux/actions/transactionActions'
 import { extractMonth } from '../../utils/dateFormatter'
+import Loader from '../general/Loader'
 
 ChartJS.register(...registerables)
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const { auth, chart } = useSelector((state: RootStore) => state)
+  const { auth, chart, alert, latestTransaction } = useSelector((state: RootStore) => state)
 
   useEffect(() => {
     dispatch(getMonthlyTransactions(auth.token!))
+    dispatch(getLatestTransactions(auth.token!))
   }, [auth.token, dispatch])
   
   return (
@@ -50,8 +52,19 @@ const Dashboard = () => {
       </div>
       <div className='flex-1 overflow-auto hide-scrollbar'>
         <p className='text-accent font-medium mb-4'>Latest Transaction</p>
-        <TransactionContainer />
-        <TransactionContainer />
+        {
+          alert.loading
+          ? <Loader />
+          : (
+            <>
+              {
+                latestTransaction.map((item, idx) => (
+                  <TransactionContainer key={idx} item={item} />
+                ))
+              }
+            </>
+          )
+        }
       </div>
     </div>
   )

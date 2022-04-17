@@ -3,7 +3,7 @@ import { ITransaction } from './../../redux/types/transactionTypes'
 import TransactionDetail from './TransactionDetail'
 
 interface IProps {
-  item?: ITransaction
+  item: ITransaction
 }
 
 const TransactionContainer: React.FC<IProps> = ({ item }) => {

@@ -7,16 +7,19 @@ import { RootStore } from '../../utils/Interface'
 import { getLatestTransactions, getMonthlyTransactions } from '../../redux/actions/transactionActions'
 import { extractMonth } from '../../utils/dateFormatter'
 import Loader from '../general/Loader'
+import { getBalance } from '../../redux/actions/balanceActions'
+import { numberFormatter } from '../../utils/numberFormatter'
 
 ChartJS.register(...registerables)
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const { auth, chart, alert, latestTransaction } = useSelector((state: RootStore) => state)
+  const { auth, chart, alert, latestTransaction, balance } = useSelector((state: RootStore) => state)
 
   useEffect(() => {
     dispatch(getMonthlyTransactions(auth.token!))
     dispatch(getLatestTransactions(auth.token!))
+    dispatch(getBalance(auth.token!))
   }, [auth.token, dispatch])
   
   return (
@@ -24,7 +27,7 @@ const Dashboard = () => {
       <div className='flex-1 lg:flex-[2] flex flex-col gap-7'>
         <div>
           <p className='text-gray-400'>Current Balance</p>
-          <h1 className='text-3xl lg:text-4xl font-semibold mt-5'>IDR 25.000.000,00</h1>
+          <h1 className='text-3xl lg:text-4xl font-semibold mt-5'>{numberFormatter(balance.balance)},00</h1>
         </div>
         <div className='flex-1 bg-secondary rounded-md'>
           <Line

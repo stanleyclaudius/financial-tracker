@@ -10,5 +10,6 @@ router.route('/')
 
 router.route('/monthly').get(isAuthenticated, transactionCtrl.getTransactionsByMonth)
 router.route('/latest').get(isAuthenticated, transactionCtrl.getLatestTransaction)
+router.route('/balance').get(isAuthenticated, transactionCtrl.getCurrentBalance)
 
 export default router

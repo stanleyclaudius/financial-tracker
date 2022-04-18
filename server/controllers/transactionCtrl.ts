@@ -110,6 +110,18 @@ const transactionCtrl = {
     } catch (err: any) {
       return res.status(500).json({ msg: err.message })
     }
+  },
+  getCurrentBalance: async(req: IReqUser, res: Response) => {
+    try {
+      const incomes = await db<ITransaction>('transaction').sum('amount').where('user', req.user!.id).andWhere('type', 'income')
+      const expenses = await db<ITransaction>('transaction').sum('amount').where('user', req.user!.id).andWhere('type', 'expense')
+
+      const balance = Number(incomes[0].sum) - Number(expenses[0].sum)
+
+      return res.status(200).json({ balance })
+    } catch (err: any) {
+      return res.status(500).json({ msg: err.message })
+    }
   }
 }
 

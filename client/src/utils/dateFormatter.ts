@@ -19,6 +19,30 @@ export const dateFormatter = (date: string) => {
   return formattedDate
 }
 
+export const formatDate = (date: string) => {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  const datePart = date.split('/')
+  const month = monthNames[Number(datePart[0]) - 1]
+  const day = datePart[1]
+  const year = datePart[2]
+
+  return `${year}, ${month} ${day}`
+}
+
 export const extractMonth = (month: number) => {
   const monthNames = [
     'January',

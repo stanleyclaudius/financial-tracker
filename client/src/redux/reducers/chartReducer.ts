@@ -2,6 +2,7 @@ import { extractMonthFromDate } from '../../utils/dateFormatter'
 import { GET_MONTHLY_TRANSACTIONS, IGetMonthlyTransactionsType, IInsertTransactionType, IMonthlyTransaction, INSERT_TRANSACTION } from './../types/transactionTypes'
 
 const initialState = {
+  year: '',
   incomes: [],
   expenses: []
 }
@@ -13,6 +14,8 @@ const chartReducer = (state: IMonthlyTransaction = initialState, action: IInsert
       return action.payload
     case INSERT_TRANSACTION:
       const transactionType = action.payload.type
+      const year = new Date(`${action.payload.created_at}`).toLocaleDateString().split('/')[2]
+      if (year !== state.year) return state
       if (transactionType === 'income') {
         const isMonthExists = state.incomes.find(item => item.month === extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()))
         if (isMonthExists) {

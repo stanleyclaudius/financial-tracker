@@ -18,6 +18,7 @@ export interface IMonthlyTransactionData {
 }
 
 export interface IMonthlyTransaction {
+  year: string
   incomes: IMonthlyTransactionData[]
   expenses: IMonthlyTransactionData[]
 }

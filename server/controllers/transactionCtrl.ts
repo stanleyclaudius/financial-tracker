@@ -66,7 +66,7 @@ const transactionCtrl = {
                         .where('user', req.user!.id)
                         .groupByRaw("date_part('month', created_at), type, date_part('year', created_at)")
                         .having('type', '=', 'income')
-                        .havingRaw("date_part('year', created_at) = date_part('year', CURRENT_DATE)")
+                        .havingRaw("date_part('year', created_at) = ?", [`${req.query.year}`])
 
       const expenses = await db<ITransaction>('transaction')
                         .select(db.raw("date_part('month', created_at) as month"))
@@ -74,9 +74,10 @@ const transactionCtrl = {
                         .where('user', req.user!.id)
                         .groupByRaw("date_part('month', created_at), type, date_part('year', created_at)")
                         .having('type', '=', 'expense')
-                        .havingRaw("date_part('year', created_at) = date_part('year', CURRENT_DATE)")
+                        .havingRaw("date_part('year', created_at) = ?", [`${req.query.year}`])
 
       return res.status(200).json({
+        year: req.query.year,
         incomes,
         expenses
       })
@@ -119,6 +120,14 @@ const transactionCtrl = {
       const balance = Number(incomes[0].sum) - Number(expenses[0].sum)
 
       return res.status(200).json({ balance })
+    } catch (err: any) {
+      return res.status(500).json({ msg: err.message })
+    }
+  },
+  getTransactionYear: async(req: IReqUser, res: Response) => {
+    try {
+      const years = await db<ITransaction>('transaction').distinct(db.raw("date_part('year', created_at) as year")).where('user', req.user!.id)
+      res.status(200).json({ years })
     } catch (err: any) {
       return res.status(500).json({ msg: err.message })
     }

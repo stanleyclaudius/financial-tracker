@@ -72,12 +72,12 @@ export const getLatestTransactions = (token: string) => async(dispatch: Dispatch
   }
 }
 
-export const getMonthlyTransactions = (token: string) => async(dispatch: Dispatch<IGetMonthlyTransactionsType | IAlertType>) => {
+export const getMonthlyTransactions = (token: string, year: string) => async(dispatch: Dispatch<IGetMonthlyTransactionsType | IAlertType>) => {
   const tokenExpResult = await checkTokenExp(token, dispatch)
   const accessToken = tokenExpResult ? tokenExpResult : token
 
   try {
-    const res = await getDataAPI('transaction/monthly', accessToken)
+    const res = await getDataAPI(`transaction/monthly?year=${year}`, accessToken)
     dispatch({
       type: GET_MONTHLY_TRANSACTIONS,
       payload: res.data

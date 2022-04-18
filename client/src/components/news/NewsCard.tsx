@@ -8,7 +8,7 @@ interface IProps {
 
 const NewsCard: React.FC<IProps> = ({ item }) => {
   return (
-    <a href={item.link} target='_blank' className='flex items-center gap-4 cursor-pointer mb-7 hover:underline'>
+    <a href={item.link} rel='noreferrer' target='_blank' className='flex items-center gap-4 cursor-pointer mb-7 hover:underline'>
       <div className='w-12 h-12 border boder-gray-900 rounded-md shrink-0 flex items-center justify-center'>
         <RiNewspaperLine className='text-xl' />
       </div>

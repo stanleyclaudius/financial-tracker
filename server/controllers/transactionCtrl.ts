@@ -33,7 +33,7 @@ const transactionCtrl = {
   },
   getTransactions: async(req: IReqUser, res: Response) => {
     try {
-      const transactions = await db<ITransaction>('transaction').where('user', req.user!.id).andWhereRaw("date_part('year', created_at) = date_part('year', CURRENT_DATE)").orderBy('created_at', 'desc')
+      const transactions = await db<ITransaction>('transaction').where('user', req.user!.id).andWhereRaw(`date_part('year', created_at) = ${req.query.year}`).orderBy('created_at', 'desc')
 
       const dateData: string[] = []
       const formattedData = []

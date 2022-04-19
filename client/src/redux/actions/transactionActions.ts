@@ -4,7 +4,7 @@ import { ALERT, IAlertType } from './../types/alertTypes'
 import { getDataAPI, postDataAPI } from './../../utils/fetchData'
 import { checkTokenExp } from './../../utils/checkTokenExp'
 
-export const getAllTransactions = (token: string) => async(dispatch: Dispatch<IGetAllTransactionsType | IAlertType>) => {
+export const getAllTransactions = (token: string, year: string) => async(dispatch: Dispatch<IGetAllTransactionsType | IAlertType>) => {
   const tokenExpResult = await checkTokenExp(token, dispatch)
   const accessToken = tokenExpResult ? tokenExpResult : token
   
@@ -16,7 +16,7 @@ export const getAllTransactions = (token: string) => async(dispatch: Dispatch<IG
       }
     })
 
-    const res = await getDataAPI('transaction', accessToken)
+    const res = await getDataAPI(`transaction?year=${year}`, accessToken)
     dispatch({
       type: GET_ALL_TRANSACTIONS,
       payload: res.data.transactions

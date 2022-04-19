@@ -44,14 +44,18 @@ const AddTransactionModal: React.FC<IProps> = ({ openModal, setOpenModal, modalR
     if (transactionData.purpose.length > 255) {
       return dispatch({
         type: ALERT,
-        payload: 'Transaction purpose should be less than 255 characters.'
+        payload: {
+          errors: 'Transaction purpose should be less than 255 characters.'
+        }
       })
     }
 
     if (transactionData.amount < 1000) {
       return dispatch({
         type: ALERT,
-        payload: 'Transaction amoount should be at least Rp.1000,00'
+        payload: {
+          errors: 'Transaction amoount should be at least Rp1.000,00'
+        }
       })
     }
 

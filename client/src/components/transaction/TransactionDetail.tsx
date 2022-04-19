@@ -8,8 +8,8 @@ interface IProps {
 
 const TransactionDetail: React.FC<IProps> = ({ transaction }) => {
   return (
-    <div className='grid grid-cols-3 text-sm mb-4'>
-      <div className='flex items-center gap-4'>
+    <div className='flex items-center justify-between text-sm mb-4'>
+      <div className='flex items-center gap-4 w-fit'>
         <div className='w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center'>
           {
             transaction.type === 'expense'
@@ -19,11 +19,8 @@ const TransactionDetail: React.FC<IProps> = ({ transaction }) => {
         </div>
         <p>{transaction.purpose}</p>
       </div>
-      <div className='flex items-center justify-center'>
+      <div>
         {numberFormatter(transaction.amount)},00
-      </div>
-      <div className='text-center flex items-center justify-center'>
-        IDR 24.925.000,00
       </div>
     </div>
   )

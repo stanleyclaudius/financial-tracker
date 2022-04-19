@@ -35,12 +35,15 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    dispatch(getMonthlyTransactions(auth.token!, selectedYear))
+    if (auth.token)
+      dispatch(getMonthlyTransactions(auth.token, selectedYear))
   }, [dispatch, auth.token!, selectedYear])
 
   useEffect(() => {
-    dispatch(getLatestTransactions(auth.token!))
-    dispatch(getBalance(auth.token!))
+    if (auth.token) {
+      dispatch(getLatestTransactions(auth.token!))
+      dispatch(getBalance(auth.token!))
+    }
   }, [auth.token, dispatch])
 
   useEffect(() => {
@@ -51,8 +54,10 @@ const Dashboard = () => {
       setYears(res.data.years)
     }
 
-    fetchYearData()
-  }, [auth.token, dispatch])
+    if (chart.incomes.length > 0 || chart.expenses.length > 0) {
+      fetchYearData()
+    }
+  }, [auth.token, dispatch, chart.incomes, chart.expenses])
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -70,30 +75,33 @@ const Dashboard = () => {
       <div className='flex-1 lg:flex-[2] flex flex-col gap-7'>
         <div>
           <p className='text-gray-400'>Current Balance</p>
-          <div className='flex items-center justify-between mt-5'>
+          <div className='flex md:items-center flex-col md:flex-row justify-between md:mt-5 mt-3'>
             <h1 className='text-3xl lg:text-4xl font-semibold'>{numberFormatter(balance.balance)},00</h1>
-            <div className='flex items-center gap-4'>
-              <div ref={filterRef} className='relative'>
-                <button onClick={() => setOpenFilter(!openFilter)} className='flex items-center gap-4 bg-secondary rounded-md px-4 py-2'>
-                  <MdFilterAlt />
-                  Filter
-                </button>
-                <div className={`absolute top-[100%] right-0 ${openFilter ? 'scale-y-1' : 'scale-y-0'} transition-[transform] origin-top bg-gray-700 rounded-md shadow-xl w-[100px] mt-4`}>
-                  {
-                    years.map((item, idx) => (
-                      <p
-                        key={item.year}
-                        onClick={() => handleSelectYear(item.year)}
-                        className={`${idx === 0 && idx === years.length - 1 ? 'rounded-md' : idx === 0 ? 'rounded-t-md' : idx === years.length - 1 ? 'rounded-b-md' : undefined} ${idx !== years.length - 1 ? 'border-b border-gray-500' : undefined} text-center p-2 cursor-pointer hover:bg-gray-600 ${selectedYear === item.year ? 'bg-gray-600' : undefined}`}
-                      >
-                      {item.year}
-                    </p>
-                    ))
-                  }
+            {
+              years.length > 0 &&
+              <div className='flex items-center gap-4 md:mt-0 mt-5'>
+                <div ref={filterRef} className='relative'>
+                  <button onClick={() => setOpenFilter(!openFilter)} className='flex items-center gap-4 bg-gray-700 hover:bg-gray-800 transition-[background] rounded-md px-4 py-2'>
+                    <MdFilterAlt />
+                    Filter
+                  </button>
+                  <div className={`absolute top-[100%] right-0 ${openFilter ? 'scale-y-1' : 'scale-y-0'} transition-[transform] origin-top bg-gray-700 rounded-md shadow-xl w-[100px] mt-4`}>
+                    {
+                      years.map((item, idx) => (
+                        <p
+                          key={item.year}
+                          onClick={() => handleSelectYear(item.year)}
+                          className={`${idx === 0 && idx === years.length - 1 ? 'rounded-md' : idx === 0 ? 'rounded-t-md' : idx === years.length - 1 ? 'rounded-b-md' : undefined} ${idx !== years.length - 1 ? 'border-b border-gray-500' : undefined} text-center p-2 cursor-pointer hover:bg-gray-600 ${selectedYear === item.year ? 'bg-gray-600' : undefined}`}
+                        >
+                        {item.year}
+                      </p>
+                      ))
+                    }
+                  </div>
                 </div>
+                {selectedYear}
               </div>
-              {selectedYear}
-            </div>
+            }
           </div>
         </div>
         <div className='flex-1 bg-secondary rounded-md'>
@@ -101,7 +109,7 @@ const Dashboard = () => {
             height={100}
             options={{ maintainAspectRatio: false }}
             data={{
-              labels: chart.incomes.map(item => extractMonth(item.month)),
+              labels: chart.incomes.length > chart.expenses.length ? chart.incomes.map(item => extractMonth(item.month)) : chart.expenses.map(item => extractMonth(item.month)),
               datasets: [
                 {
                   label: 'Income',

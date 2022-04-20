@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ALERT } from '../../redux/types/alertTypes'
-import { RootStore } from '../../utils/Interface'
+import { ALERT } from './../../redux/types/alertTypes'
+import { RootStore } from './../../utils/Interface'
 import { postDataAPI } from './../../utils/fetchData'
 import HeadInfo from './../../utils/HeadInfo'
 

@@ -4,10 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { BiLock } from 'react-icons/bi'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { FormSubmit, InputChange, RootStore } from './../../utils/Interface'
+import { ALERT } from './../../redux/types/alertTypes'
+import { resetPassword } from './../../redux/actions/authActions'
 import HeadInfo from './../../utils/HeadInfo'
-import { ALERT } from '../../redux/types/alertTypes'
-import Loader from '../../components/general/Loader'
-import { resetPassword } from '../../redux/actions/authActions'
+import Loader from './../../components/general/Loader'
 
 const ForgetPassword = () => {
   const [passwordData, setPasswordData] = useState({

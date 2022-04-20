@@ -1,4 +1,4 @@
-import { extractMonthFromDate } from '../../utils/dateFormatter'
+import { dateFormatter } from './../../utils/formatter'
 import { GET_MONTHLY_TRANSACTIONS, IGetMonthlyTransactionsType, IInsertTransactionType, IMonthlyTransaction, INSERT_TRANSACTION } from './../types/transactionTypes'
 
 const initialState = {
@@ -17,37 +17,37 @@ const chartReducer = (state: IMonthlyTransaction = initialState, action: IInsert
       const year = new Date(`${action.payload.created_at}`).toLocaleDateString().split('/')[2]
       if (year !== state.year) return state
       if (transactionType === 'income') {
-        const isMonthExists = state.incomes.find(item => item.month === extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()))
+        const isMonthExists = state.incomes.find(item => item.month === dateFormatter.extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()))
         if (isMonthExists) {
           return ({
             ...state,
             incomes: state.incomes.map(item => 
-              item.month === extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString())
+              item.month === dateFormatter.extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString())
               ? { ...item, sum: Number(item.sum) + action.payload.amount }
               : item
             )
           } as IMonthlyTransaction)
         } else {
           const newData = {
-            month: extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()),
+            month: dateFormatter.extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()),
             sum: action.payload.amount
           }
           return ({ ...state, incomes: [ newData ] } as IMonthlyTransaction)
         }
       } else {
-        const isMonthExists = state.expenses.find(item => item.month === extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()))
+        const isMonthExists = state.expenses.find(item => item.month === dateFormatter.extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()))
         if (isMonthExists) {
           return ({
             ...state,
             expenses: state.expenses.map(item => 
-              item.month === extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString())
+              item.month === dateFormatter.extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString())
               ? { ...item, sum: Number(item.sum) + action.payload.amount }
               : item
             )
           } as IMonthlyTransaction)
         } else {
           const newData = {
-            month: extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()),
+            month: dateFormatter.extractMonthFromDate(new Date(`${action.payload.created_at}`).toLocaleDateString()),
             sum: action.payload.amount
           }
           return ({ ...state, expenses: [ newData ] } as IMonthlyTransaction)

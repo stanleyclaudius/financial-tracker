@@ -4,9 +4,9 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { MdAttachMoney } from 'react-icons/md'
 import { BsPatchQuestion } from 'react-icons/bs'
 import { FormSubmit, InputChange, RootStore } from './../../utils/Interface'
-import { ALERT } from '../../redux/types/alertTypes'
-import { insertTransaction } from '../../redux/actions/transactionActions'
-import Loader from '../general/Loader'
+import { ALERT } from './../../redux/types/alertTypes'
+import { insertTransaction } from './../../redux/actions/transactionActions'
+import Loader from './../general/Loader'
 
 interface IProps {
   openModal: boolean

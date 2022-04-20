@@ -1,4 +1,4 @@
-import { IInsertTransactionType, INSERT_TRANSACTION } from '../types/transactionTypes'
+import { IInsertTransactionType, INSERT_TRANSACTION } from './../types/transactionTypes'
 import { GET_BALANCE, IBalance, IGetBalanceType } from './../types/balanceTypes'
 
 const initialState = {

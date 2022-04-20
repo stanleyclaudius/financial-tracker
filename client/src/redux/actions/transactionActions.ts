@@ -1,8 +1,18 @@
 import { Dispatch } from 'redux'
-import { GET_ALL_TRANSACTIONS, GET_LATEST_TRANSACTIONS, GET_MONTHLY_TRANSACTIONS, IGetAllTransactionsType, IGetLatestTransactionsType, IGetMonthlyTransactionsType, IInsertTransactionType, INSERT_TRANSACTION, ITransactionData } from './../types/transactionTypes'
 import { ALERT, IAlertType } from './../types/alertTypes'
 import { getDataAPI, postDataAPI } from './../../utils/fetchData'
 import { checkTokenExp } from './../../utils/checkTokenExp'
+import {
+  GET_ALL_TRANSACTIONS,
+  GET_LATEST_TRANSACTIONS,
+  GET_MONTHLY_TRANSACTIONS,
+  IGetAllTransactionsType,
+  IGetLatestTransactionsType,
+  IGetMonthlyTransactionsType,
+  IInsertTransactionType,
+  INSERT_TRANSACTION,
+  ITransactionData
+} from './../types/transactionTypes'
 
 export const getAllTransactions = (token: string, year: string) => async(dispatch: Dispatch<IGetAllTransactionsType | IAlertType>) => {
   const tokenExpResult = await checkTokenExp(token, dispatch)

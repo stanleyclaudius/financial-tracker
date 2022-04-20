@@ -1,6 +1,6 @@
-import { numberFormatter } from './../../utils/numberFormatter'
-import { ITransactionData } from './../../redux/types/transactionTypes'
 import { BsFillArrowDownLeftCircleFill, BsFillArrowUpRightCircleFill } from 'react-icons/bs'
+import { numberFormatter } from './../../utils/formatter'
+import { ITransactionData } from './../../redux/types/transactionTypes'
 
 interface IProps {
   transaction: ITransactionData
@@ -20,7 +20,7 @@ const TransactionDetail: React.FC<IProps> = ({ transaction }) => {
         <p>{transaction.purpose}</p>
       </div>
       <div>
-        {numberFormatter(transaction.amount)},00
+        {numberFormatter.toIDRCurrency(transaction.amount)},00
       </div>
     </div>
   )

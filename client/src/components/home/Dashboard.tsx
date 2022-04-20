@@ -1,23 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
+import { MdFilterAlt } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { Line, Chart } from 'react-chartjs-2'
 import { Chart as ChartJS, registerables } from 'chart.js'
+import { IYear, RootStore } from './../../utils/Interface'
+import { getLatestTransactions, getMonthlyTransactions } from './../../redux/actions/transactionActions'
+import { dateFormatter, numberFormatter } from './../../utils/formatter'
+import { getBalance } from './../../redux/actions/balanceActions'
+import { getDataAPI } from './../../utils/fetchData'
+import { checkTokenExp } from './../../utils/checkTokenExp'
 import TransactionContainer from './../transaction/TransactionContainer'
-import { RootStore } from '../../utils/Interface'
-import { getLatestTransactions, getMonthlyTransactions } from '../../redux/actions/transactionActions'
-import { extractMonth } from '../../utils/dateFormatter'
-import Loader from '../general/Loader'
-import { getBalance } from '../../redux/actions/balanceActions'
-import { numberFormatter } from '../../utils/numberFormatter'
-import { MdFilterAlt } from 'react-icons/md'
-import { getDataAPI } from '../../utils/fetchData'
-import { checkTokenExp } from '../../utils/checkTokenExp'
+import Loader from './../general/Loader'
 
 ChartJS.register(...registerables)
-
-interface IYear {
-  year: string
-}
 
 const Dashboard = () => {
   const [years, setYears] = useState<IYear[]>([])
@@ -37,7 +32,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (auth.token)
       dispatch(getMonthlyTransactions(auth.token, selectedYear))
-  }, [dispatch, auth.token!, selectedYear])
+  }, [dispatch, auth.token, selectedYear])
 
   useEffect(() => {
     if (auth.token) {
@@ -76,7 +71,7 @@ const Dashboard = () => {
         <div>
           <p className='text-gray-400'>Current Balance</p>
           <div className='flex md:items-center flex-col md:flex-row justify-between md:mt-5 mt-3'>
-            <h1 className='text-3xl lg:text-4xl font-semibold'>{numberFormatter(balance.balance)},00</h1>
+            <h1 className='text-3xl lg:text-4xl font-semibold'>{numberFormatter.toIDRCurrency(balance.balance)},00</h1>
             {
               years.length > 0 &&
               <div className='flex items-center gap-4 md:mt-0 mt-5'>
@@ -109,7 +104,7 @@ const Dashboard = () => {
             height={100}
             options={{ maintainAspectRatio: false }}
             data={{
-              labels: chart.incomes.length > chart.expenses.length ? chart.incomes.map(item => extractMonth(item.month)) : chart.expenses.map(item => extractMonth(item.month)),
+              labels: chart.incomes.length > chart.expenses.length ? chart.incomes.map(item => dateFormatter.getMonthNameFromDate(item.month)) : chart.expenses.map(item => dateFormatter.getMonthNameFromDate(item.month)),
               datasets: [
                 {
                   label: 'Income',

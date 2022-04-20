@@ -1,6 +1,7 @@
 import { RiNewspaperLine } from 'react-icons/ri'
-import { formatDate } from '../../utils/dateFormatter'
+import { dateFormatter } from './../../utils/formatter'
 import { INewsData } from './../../redux/types/newsTypes'
+import { DateFormat } from './../../utils/Interface'
 
 interface IProps {
   item: INewsData
@@ -14,7 +15,7 @@ const NewsCard: React.FC<IProps> = ({ item }) => {
       </div>
       <div>
         <h2 className='text-gray-200 mb-2'>{item.title.length > 16 ? `${item.title.substring(0, 16)} ...` : item.title}</h2>
-        <p className='text-xs text-gray-400'>{formatDate(new Date(item.pubDate).toLocaleDateString())}</p>
+        <p className='text-xs text-gray-400'>{dateFormatter.formatDate(new Date(item.pubDate).toLocaleDateString(), DateFormat.YearMonthDay)}</p>
       </div>
     </a>
   )

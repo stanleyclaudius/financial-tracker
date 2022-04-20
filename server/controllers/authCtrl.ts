@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 import { OAuth2Client } from 'google-auth-library'
-import { checkEmail } from '../utils/checkEmail'
-import { generateAccessToken, generateActivationToken, generateRefreshToken } from '../utils/generateToken'
+import { checkEmail } from './../utils/checkEmail'
+import { generateAccessToken, generateActivationToken, generateRefreshToken } from './../utils/generateToken'
 import { IDecodedToken, IGooglePayload, IReqUser, IUser, IUserSocialRegister } from './../utils/Interface'
+import db from './../config/db'
+import sendEmail from './../utils/sendMail'
 import fetch from 'cross-fetch'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import db from './../config/db'
-import sendEmail from './../utils/sendMail'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 

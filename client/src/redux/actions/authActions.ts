@@ -2,8 +2,8 @@ import { Dispatch } from 'redux'
 import { ALERT, IAlertType } from './../types/alertTypes'
 import { AUTH, IAuthType } from './../types/authTypes'
 import { getDataAPI, patchDataAPI, postDataAPI } from './../../utils/fetchData'
-import { IUserLogin, IUserRegister } from '../../utils/Interface'
-import { checkTokenExp } from '../../utils/checkTokenExp'
+import { IUserLogin, IUserRegister } from './../../utils/Interface'
+import { checkTokenExp } from './../../utils/checkTokenExp'
 
 export const login = (userData: IUserLogin) => async(dispatch: Dispatch<IAuthType | IAlertType>) => {
   try {

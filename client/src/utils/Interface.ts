@@ -7,6 +7,11 @@ export type FormSubmit = FormEvent<HTMLFormElement>
 
 export type RootStore = ReturnType<typeof rootReducer>
 
+export enum DateFormat {
+  MonthDay,
+  YearMonthDay
+}
+
 export interface IUserLogin {
   email: string
   password: string
@@ -22,4 +27,8 @@ export interface IUser extends IUserLogin {
   rf_token: string
   avatar: string
   type: string
+}
+
+export interface IYear {
+  year: string
 }

@@ -1,9 +1,9 @@
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
-import { INewsData } from '../../redux/types/newsTypes'
-import { RAPID_API_KEY } from '../../utils/constant'
-import Loader from '../general/Loader'
+import { INewsData } from './../../redux/types/newsTypes'
+import { RAPID_API_KEY } from './../../utils/constant'
+import axios from 'axios'
+import Loader from './../general/Loader'
 import NewsCard from './NewsCard'
 
 interface IProps {

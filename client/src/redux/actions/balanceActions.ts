@@ -2,7 +2,7 @@ import { Dispatch } from 'redux'
 import { GET_BALANCE, IGetBalanceType } from './../types/balanceTypes'
 import { ALERT, IAlertType } from './../types/alertTypes'
 import { getDataAPI } from './../../utils/fetchData'
-import { checkTokenExp } from '../../utils/checkTokenExp'
+import { checkTokenExp } from './../../utils/checkTokenExp'
 
 export const getBalance = (token: string) => async(dispatch: Dispatch<IGetBalanceType | IAlertType>) => {
   const tokenExpResult = await checkTokenExp(token, dispatch)

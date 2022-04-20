@@ -1,17 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MdFilterAlt } from 'react-icons/md'
+import { ITransaction } from './../../redux/types/transactionTypes'
+import { IYear, RootStore } from './../../utils/Interface'
+import { getAllTransactions } from './../../redux/actions/transactionActions'
+import { checkTokenExp } from './../../utils/checkTokenExp'
+import { getDataAPI } from './../../utils/fetchData'
 import TransactionContainer from './../transaction/TransactionContainer'
-import { ITransaction } from '../../redux/types/transactionTypes'
-import { RootStore } from '../../utils/Interface'
-import { getAllTransactions } from '../../redux/actions/transactionActions'
-import Loader from '../general/Loader'
-import { checkTokenExp } from '../../utils/checkTokenExp'
-import { getDataAPI } from '../../utils/fetchData'
-
-interface IYear {
-  year: string
-}
+import Loader from './../general/Loader'
 
 const Transaction = () => {
   const [years, setYears] = useState<IYear[]>([])

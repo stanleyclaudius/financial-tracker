@@ -2,6 +2,15 @@ import { Response } from 'express'
 import { IReqUser, ITransaction } from './../utils/Interface'
 import db from './../config/db'
 
+interface IInsertTransactionReturnType {
+  id: number
+}
+
+interface IFormattedData {
+  date: string
+  data: ITransaction[]
+}
+
 const transactionCtrl = {
   insertTransaction: async(req: IReqUser, res: Response) => {
     try {
@@ -18,9 +27,8 @@ const transactionCtrl = {
       if (type !== 'income' && type !== 'expense')
         return res.status(400).json({ msg: 'Transaction type should be either income or expense.' })
 
-      const transactionId = await db<ITransaction>('transaction').returning('id').insert({ amount, purpose, type, user: req.user!.id })
+      const transactionId = <IInsertTransactionReturnType[]>await db<ITransaction>('transaction').returning('id').insert({ amount, purpose, type, user: req.user!.id })
 
-      // @ts-ignore
       const transactionData = await db<ITransaction>('transaction').where('id', transactionId[0].id)
 
       return res.status(200).json({
@@ -39,7 +47,7 @@ const transactionCtrl = {
                             .orderBy('created_at', 'desc')
 
       const dateData: string[] = []
-      const formattedData = []
+      const formattedData: IFormattedData[] = []
       for (let transaction of transactions) {
         if (!dateData.includes(new Date(transaction.created_at).toLocaleDateString())) {
           dateData.push(new Date(transaction.created_at).toLocaleDateString())
@@ -50,7 +58,6 @@ const transactionCtrl = {
       for (let item of formattedData) {
         for (let transaction of transactions) {
           if (new Date(transaction.created_at).toLocaleDateString() === item.date) {
-            // @ts-ignore
             item.data.push(transaction)
           }
         }
@@ -97,7 +104,7 @@ const transactionCtrl = {
                             .limit(4)
 
       const dateData: string[] = []
-      const formattedData = []
+      const formattedData: IFormattedData[] = []
       for (let transaction of transactions) {
         if (!dateData.includes(new Date(transaction.created_at).toLocaleDateString())) {
           dateData.push(new Date(transaction.created_at).toLocaleDateString())
@@ -108,7 +115,6 @@ const transactionCtrl = {
       for (let item of formattedData) {
         for (let transaction of transactions) {
           if (new Date(transaction.created_at).toLocaleDateString() === item.date) {
-            // @ts-ignore
             item.data.push(transaction)
           }
         }

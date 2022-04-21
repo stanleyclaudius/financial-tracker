@@ -8,21 +8,40 @@ import { checkTokenExp } from './../../utils/checkTokenExp'
 import { getDataAPI } from './../../utils/fetchData'
 import TransactionContainer from './../transaction/TransactionContainer'
 import Loader from './../general/Loader'
+import { AiFillFilePdf } from 'react-icons/ai'
+import { generatePdf } from '../../utils/generatePdf'
+import { ALERT } from '../../redux/types/alertTypes'
 
 const Transaction = () => {
   const [years, setYears] = useState<IYear[]>([])
   const [transactions, setTransactions] = useState<ITransaction[]>([])
   const [openFilter, setOpenFilter] = useState(false)
   const [selectedYear, setSelectedYear] = useState(`${new Date().getFullYear()}`)
+  const [loading, setLoading] = useState(false)
 
   const filterRef = useRef() as React.MutableRefObject<HTMLDivElement>
 
   const dispatch = useDispatch()
-  const { auth, alert, chart, history } = useSelector((state: RootStore) => state)
+  const { auth, alert, history } = useSelector((state: RootStore) => state)
 
   const handleSelectYear = (year: string) => {
     setSelectedYear(year)
     setOpenFilter(false)
+  }
+
+  const handleGeneratePdf = async() => {
+    if (transactions.length <= 0) {
+      return dispatch({
+        type: ALERT,
+        payload: {
+          errors: 'There\'s currently no transaction yet.'
+        }
+      })
+    }
+
+    setLoading(true)
+    await generatePdf(transactions, `${auth.user?.name}`)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -42,10 +61,10 @@ const Transaction = () => {
       setYears(res.data.years)
     }
 
-    if (chart.incomes.length > 0 || chart.expenses.length > 0) {
+    if (transactions.length > 0) {
       fetchYearData()
     }
-  }, [auth.token, dispatch, chart.incomes, chart.expenses])
+  }, [auth.token, dispatch, transactions])
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -60,33 +79,43 @@ const Transaction = () => {
 
   return (
     <div className='flex-[4] bg-primary p-10'>
-      <div className='flex items-center justify-between mb-8'>
+      <div className='flex md:items-center justify-between mb-8 flex-col md:flex-row'>
         <h1 className='text-xl'>Previous Transaction</h1>
-        {
-          years.length > 0 &&
-          <div className='flex items-center gap-4'>
-            <div ref={filterRef} className='relative'>
-              <button onClick={() => setOpenFilter(!openFilter)} className='bg-gray-700 hover:bg-gray-800 transition-[background] rounded-md px-5 py-2 flex items-center gap-3'>
-                <MdFilterAlt />
-                Filter
-              </button>
-              <div className={`absolute top-[100%] mt-4 right-0 rounded-md w-[100px] ${openFilter ? 'scale-y-1' : 'scale-y-0'} transition-[transform] origin-top bg-gray-700 shadow-xl`}>
-                {
-                  years.map((item, idx) => (
-                    <p
-                      key={item.year}
-                      onClick={() => handleSelectYear(item.year)}
-                      className={`${idx === 0 && idx === years.length - 1 ? 'rounded-md' : idx === 0 ? 'rounded-t-md' : idx === years.length - 1 ? 'rounded-b-md' : undefined} ${idx !== years.length - 1 ? 'border-b border-gray-500' : undefined} text-center p-2 cursor-pointer hover:bg-gray-600 ${selectedYear === item.year ? 'bg-gray-600' : undefined}`}
-                    >
-                    {item.year}
-                  </p>
-                  ))
-                }
+        <div className='flex md:items-center gap-6 flex-col md:flex-row md:mt-0 mt-5'>
+          {
+            transactions.length > 0 &&
+            <button onClick={handleGeneratePdf} className='w-fit bg-red-500 rounded-md px-4 py-2 flex items-center gap-3 hover:bg-red-600 transition-[background]'>
+              <AiFillFilePdf />
+              Generate PDF
+            </button>
+          }
+
+          {
+            years.length > 0 &&
+            <div className='flex items-center gap-4'>
+              <div ref={filterRef} className='relative'>
+                <button onClick={() => setOpenFilter(!openFilter)} className='bg-gray-700 hover:bg-gray-800 transition-[background] rounded-md px-5 py-2 flex items-center gap-3'>
+                  <MdFilterAlt />
+                  Filter
+                </button>
+                <div className={`absolute top-[100%] mt-4 right-0 rounded-md w-[100px] ${openFilter ? 'scale-y-1' : 'scale-y-0'} transition-[transform] origin-top bg-gray-700 shadow-xl`}>
+                  {
+                    years.map((item, idx) => (
+                      <p
+                        key={item.year}
+                        onClick={() => handleSelectYear(item.year)}
+                        className={`${idx === 0 && idx === years.length - 1 ? 'rounded-md' : idx === 0 ? 'rounded-t-md' : idx === years.length - 1 ? 'rounded-b-md' : undefined} ${idx !== years.length - 1 ? 'border-b border-gray-500' : undefined} text-center p-2 cursor-pointer hover:bg-gray-600 ${selectedYear === item.year ? 'bg-gray-600' : undefined}`}
+                      >
+                      {item.year}
+                    </p>
+                    ))
+                  }
+                </div>
               </div>
+              {selectedYear}
             </div>
-            {selectedYear}
-          </div>
-        }
+          }
+        </div>
       </div>
       <div className='h-[80vh] overflow-auto hide-scrollbar'>
         {

@@ -39,7 +39,7 @@ export const config: { [key: string]: Knex.Config } = {
       max: 10
     },
     migrations: {
-      directory: "./../migrations"
+      directory: "./server/migrations"
     }
   }
 

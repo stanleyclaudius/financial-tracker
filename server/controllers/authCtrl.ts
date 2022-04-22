@@ -63,6 +63,7 @@ const authCtrl = {
   },
   login: async(req: Request, res: Response) => {
     try {
+      console.log(process.env)
       const { email, password } = req.body
       if (!email || !password)
         return res.status(400).json({ msg: 'Please provide email and password.' })

@@ -6,6 +6,6 @@ dotenv.config({
   path: './server/config/.env'
 })
 
-const conn = knex(config['production'])
+const conn = knex(config[`${process.env.DB_ENV}`])
 
 export default conn

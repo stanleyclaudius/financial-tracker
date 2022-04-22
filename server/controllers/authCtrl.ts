@@ -73,7 +73,7 @@ const authCtrl = {
         
       loginUser(user[0], password, res)
     } catch (err: any) {
-      return res.status(500).json({ msg: err, env: process.env })
+      return res.status(500).json({ msg: err.message })
     }
   },
   logout: async(req: IReqUser, res: Response) => {

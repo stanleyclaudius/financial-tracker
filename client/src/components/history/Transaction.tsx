@@ -30,6 +30,8 @@ const Transaction = () => {
   }
 
   const handleGeneratePdf = async() => {
+    if (loading) return
+    
     if (transactions.length <= 0) {
       return dispatch({
         type: ALERT,

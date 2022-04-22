@@ -19,4 +19,4 @@ yarn-error.log*
 .env
 # knexfile.ts
 
-/client/src/utils/constant.ts
+# /client/src/utils/constant.ts

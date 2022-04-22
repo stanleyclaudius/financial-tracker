@@ -63,7 +63,6 @@ const authCtrl = {
   },
   login: async(req: Request, res: Response) => {
     try {
-      console.log(process.env)
       const { email, password } = req.body
       if (!email || !password)
         return res.status(400).json({ msg: 'Please provide email and password.' })
@@ -74,7 +73,7 @@ const authCtrl = {
         
       loginUser(user[0], password, res)
     } catch (err: any) {
-      return res.status(500).json({ msg: err.message })
+      return res.status(500).json({ msg: err.message, env: process.env })
     }
   },
   logout: async(req: IReqUser, res: Response) => {

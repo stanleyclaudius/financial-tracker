@@ -10,7 +10,7 @@
     "dev": "ts-node-dev server/index.ts",
     "build": "tsc",
     "knex": "knex",
-    "heroku-postbuild": "tsc && cd client && yarn i --only=dev && yarn i && yarn run build"
+    "heroku-postbuild": "tsc && cd client && yarn install --only=dev && yarn install && yarn run build"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

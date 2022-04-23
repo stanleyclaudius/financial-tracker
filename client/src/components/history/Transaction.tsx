@@ -126,9 +126,21 @@ const Transaction = () => {
           : (
             <>
               {
-                transactions.map((item, idx) => (
-                  <TransactionContainer key={idx} item={item} />
-                ))
+                transactions.length === 0
+                ? (
+                  <div className='bg-red-500 rounded-md text-center py-3 mt-5'>
+                    <p>There's no transaction currently.</p>
+                  </div>
+                )
+                : (
+                  <>
+                    {
+                      transactions.map((item, idx) => (
+                        <TransactionContainer key={idx} item={item} />
+                      ))
+                    }
+                  </>
+                )
               }
             </>
           )

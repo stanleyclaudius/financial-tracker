@@ -55,22 +55,24 @@ const Navbar: React.FC<IProps> = ({ setOpenNews }) => {
   return (
     <>
       <div className='flex lg:hidden w-full bg-secondary text-white items-center justify-between px-7 py-5 border-b border-gray-600 sticky top-0'>
-        <div className='flex items-center gap-4'>
+        <Link to='/' className='flex items-center gap-4'>
           <div className='w-10 h-10'>
             <img src={`${process.env.PUBLIC_URL}/img/logo.png`} alt='Fintrack' className='w-full h-full' />
           </div>
-          <p>Lorem Ipsum</p>
-        </div>
+          <p>Fintrack</p>
+        </Link>
         <div className='flex items-center gap-8'>
           <BiNews onClick={() => setOpenNews(true)} className='cursor-pointer text-2xl text-gray-400' />
           <div ref={dropdownRef} className='flex items-center gap-4 relative'>
-            <div onClick={() => setOpenDropdown(!openDropdown)} className='w-7 h-7 rounded-full cursor-pointer outline outline-2 outline-offset-2 outline-accent'></div>
+            <div onClick={() => setOpenDropdown(!openDropdown)} className='w-7 h-7 rounded-full cursor-pointer outline outline-2 outline-offset-2 outline-accent'>
+              <img src={auth.user?.avatar} alt={auth.user?.name} className='w-full h-full rounded-full' />
+            </div>
             <div className={`${openDropdown ? 'scale-y-1' : 'scale-y-0'} transition-[transform] origin-top absolute top-[100%] mt-3 right-0 w-[180px] bg-gray-700 rounded-md`}>
               <Link to='/' className={`flex items-center gap-3 p-3 border-b border-gray-500 w-full w-full hover:text-accent hover:font-medium ${pathname === '/' || pathname === '/index' ? 'text-accent font-medium' : 'text-gray-400'}`}>
                 <AiOutlineDashboard className='text-xl' />
                 Overview
               </Link>
-              <Link to='/history' className='flex items-center gap-3 p-3 border-b border-gray-500 w-full text-gray-400 hover:text-accent hover:font-medium'>
+              <Link to='/history' className={`flex ${pathname === '/history' ? 'text-accent font-medium' : 'text-gray-400'} items-center gap-3 p-3 border-b border-gray-500 w-full text-gray-400 hover:text-accent hover:font-medium`}>
                 <AiOutlineClockCircle className='text-xl' />
                 History
               </Link>

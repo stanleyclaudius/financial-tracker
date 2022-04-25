@@ -47,7 +47,6 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -73,7 +72,7 @@ Main technology used to built this application are listed below:
 * [Yarn](https://yarnpkg.com/)
 * [Heroku](https://herokuapp.com/)
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top">back to top</a></p>
 
 ## Getting Started
 
@@ -81,7 +80,7 @@ To get started with this project locally, follow below steps:
 
 ### Prerequisites
 
-Make sure you have package manager (either npm or yarn), and also PostgreSQL at your machine.
+Make sure you have package manager (either npm or yarn), and also PostgreSQL on your machine.
 
 >**FYI**: This project uses **yarn** as package manager, but you're free to use **npm** too.
 
@@ -89,7 +88,7 @@ Make sure you have package manager (either npm or yarn), and also PostgreSQL at 
   ```
   npm i -g yarn
   ```
-* Have PostgreSQL installed at your machine
+* Have PostgreSQL installed on your machine
 
 ### Installation
 
@@ -133,18 +132,15 @@ Rename constant.example.ts file at ```client/src/utils``` directory become ```co
     | GOOGLE_CLIENT_ID | Your google client ID | 3392348929324-tarur228dxxx |
     | FACEBOOK_APP_ID | Your facebook app ID | 18239943847394 |
     | RAPID_API_KEY | Your RapidAPI key | 13dd88sfHFKdfhdjfhd8321212dfdfasd |
-8. Lastly, run bellow command at your terminal to spin off the application
-```
-yarn run dev && cd client && yarn start
-```
-
-<p align="right"><a href="#top">back to top</a></p>
-
-<!-- ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_ -->
+8. Create a database with name corresponding to your `DB_ENV` value at .env file
+9. Run below command at your terminal that pointing to the root directory of this project
+    ```
+    yarn knex migrate:latest --migrations-directory server/migrations
+    ```
+10. Lastly, run below command at your terminal to spin off the application
+    ```
+    yarn run dev && cd client && yarn start
+    ```
 
 <p align="right"><a href="#top">back to top</a></p>
 
@@ -197,4 +193,3 @@ Special thanks to:
 [license-url]: https://github.com/stanleyclaudius/financial-tracker/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/stanley-claudius-4560b21b7
-

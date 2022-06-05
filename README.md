@@ -95,18 +95,17 @@ Make sure you have package manager (either npm or yarn), and also PostgreSQL on 
 Below steps will guide you through the local installation process of this application
 
 1. Get your **Google Client ID**, **Google Client Secret**, and also **GMail Refresh Token** from [here](https://console.developers.google.com/)
-2. Get your RapidAPI key at [here](https://rapidapi.com/)
-3. Get your facebook app ID at [here](https://developers.facebook.com/)
-4. Clone the repo
+2. Get your facebook app ID at [here](https://developers.facebook.com/)
+3. Clone the repo
    ```
    git clone https://github.com/stanleyclaudius/financial-tracker.git
    ```
-5. Install project dependency<br />
+4. Install project dependency<br />
 Make sure that your terminal pointing at the root directory of this project (financial-tracker folder).
    ```
    yarn install && cd client && yarn install
    ```
-6. Complete the .env variable<br/>
+5. Complete the .env variable<br/>
 Rename .env.example file at ```server/config``` directory become ```.env```, then fill the value for every key. Below is the guideline for filling the .env value:<br/>
     | Key | What To Fill | Example Value |
     | :---: | :---: | :---: |
@@ -125,19 +124,18 @@ Rename .env.example file at ```server/config``` directory become ```.env```, the
     | GOOGLE_CLIENT_SECRET | Your google client secret | GOCSPX-xxxxxxx |
     | GMAIL_REFRESH_TOKEN | Your gmail refresh token | 1//028dhdjBMudu2829xxx |
     | MAIL_SENDER_ADDRESS | Email that want to be used to send mail | example@gmail.com |
-7. Complete the constant.ts value<br />
+6. Complete the constant.ts value<br />
 Rename constant.example.ts file at ```client/src/utils``` directory become ```constant.ts```, then fill the value for every constant. Below is the guideline for filling the constant.ts value:<br />
     | Key | What To Fill | Example Value |
     | :---: | :---: | :---: |
     | GOOGLE_CLIENT_ID | Your google client ID | 3392348929324-tarur228dxxx |
     | FACEBOOK_APP_ID | Your facebook app ID | 18239943847394 |
-    | RAPID_API_KEY | Your RapidAPI key | 13dd88sfHFKdfhdjfhd8321212dfdfasd |
-8. Create a database with name corresponding to your `DB_ENV` value at .env file
-9. Run below command at your terminal that pointing to the root directory of this project
+7. Create a database with name corresponding to your `DB_ENV` value at .env file
+8. Run below command at your terminal that pointing to the root directory of this project
     ```
     yarn knex migrate:latest --migrations-directory server/migrations
     ```
-10. Lastly, run below command at your terminal to spin off the application
+9. Lastly, run below command at your terminal to spin off the application
     ```
     yarn run dev && cd client && yarn start
     ```

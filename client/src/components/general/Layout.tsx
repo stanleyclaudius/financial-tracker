@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import HeadInfo from './../../utils/HeadInfo'
-import NewsContainer from './../news/NewsContainer'
 
 interface IProps {
   title: string
@@ -28,11 +27,10 @@ const Layout: React.FC<IProps> = ({ title, children }) => {
   return (
     <>
       <HeadInfo title={title} />
-      <Navbar setOpenNews={setOpenNews} />
+      <Navbar />
       <div className='flex text-white h-[100vh] max-h-[100vh] overflow-y-hidden'>
         <Sidebar />
         {children}
-        <NewsContainer newsRef={newsRef} openNews={openNews} setOpenNews={setOpenNews} />
       </div>
     </>
   )
